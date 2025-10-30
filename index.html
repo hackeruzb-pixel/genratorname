@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Random Ism Generator</title>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 * { box-sizing:border-box; margin:0; padding:0; }
+
 body {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg,#ece9e6,#ffffff);
+    background: #ffffff;
     min-height: 100vh;
     display:flex;
     flex-direction: column;
@@ -18,6 +20,7 @@ body {
     padding:30px 10px;
     color:#333;
 }
+
 .box {
     background: rgba(255,255,255,0.95);
     backdrop-filter: blur(10px);
@@ -28,9 +31,18 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
+    position: relative;
 }
 .box:hover { transform: translateY(-5px); }
-h2 { margin-bottom: 16px; font-size: 20px; font-weight: 700; text-align: center; color:#222; }
+
+h2 {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color:#222;
+}
+
 input {
     width: 100%;
     padding: 14px;
@@ -43,6 +55,7 @@ input {
     font-size: 16px;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
 }
+
 button {
     width: 100%;
     padding: 14px;
@@ -59,15 +72,42 @@ button:hover {
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
+
 .btn-danger { background:#ff4b5c; color:#fff; width:auto; padding:6px 10px; font-size:14px; border-radius:8px; }
 ul { list-style:none; margin-top:15px; max-height:220px; overflow-y:auto; padding-right:5px; }
 li { background: #f5f5f5; margin-bottom: 6px; padding:10px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; font-weight:500;
     transition: all 0.3s ease;
 }
 li:hover { transform: translateX(5px) scale(1.02); }
+
 #randomName { font-size:28px; font-weight:700; color:#7c3aed; margin-top:15px; text-align:center; min-height:40px; transition: all 0.3s ease; }
-ul::-webkit-scrollbar { width:6px; }
-ul::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius:3px; }
+
+/* Mini admin button */
+#miniAdminBtn {
+    display: block;
+    margin: 10px 0 0 auto; 
+    background: linear-gradient(135deg, #7c3aed, #3b82f6);
+    color:#fff;
+    padding:10px 14px;
+    border:none;
+    border-radius:50px;
+    font-size:14px;
+    font-weight:600;
+    box-shadow:0 6px 12px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#miniAdminBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #3b82f6, #7c3aed);
+}
+
+#adminContent {
+    display: none;
+}
+
 @media(max-width:400px){
     .box { padding:20px; }
     h2 { font-size:18px; }
@@ -78,126 +118,126 @@ ul::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius:3px; }
 </head>
 <body>
 
+<!-- Admin Panel -->
 <div class="box" id="adminBox">
     <h2>🔐 Admin Panel</h2>
-    <!-- Panelni kichraytirilgan tugma -->
-    <button class="btn-primary" id="miniAdminBtn" style="display:none;" onclick="openAdminPanel()">Admin Panel</button>
-    
-    <div id="adminContent" style="margin-top:15px;">
+    <div id="adminContent">
         <input id="nameInput" type="text" placeholder="Ism kiriting...">
-        <button class="btn-primary" onclick="addName()">Ism qo‘shish</button>
+        <button onclick="addName()">Ism qo‘shish</button>
         <ul id="nameList"></ul>
-        <button class="btn-primary" onclick="finishAdmin()" style="margin-top:12px;">✅ Tayyor</button>
+        <button onclick="finishAdmin()" style="margin-top:12px;">✅ Tayyor</button>
     </div>
+
+    <!-- Mini admin tugma -->
+    <button id="miniAdminBtn" onclick="openAdmin()">🔧 Admin</button>
 </div>
 
+<!-- Random Name -->
 <div class="box">
     <h2>🎲 Random Ism</h2>
-    <button class="btn-primary" onclick="getRandom()">Random</button>
+    <button onclick="getRandom()">Random</button>
     <div id="randomName">—</div>
 </div>
 
-<script>
-let names = JSON.parse(localStorage.getItem("names")) || [];
-let lastRandom = null; 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDBa5S-QkwCNeeVK4aatEl5G3tUTbLZgAk",
+  authDomain: "generator-5f0ab.firebaseapp.com",
+  databaseURL: "https://generator-5f0ab-default-rtdb.firebaseio.com",
+  projectId: "generator-5f0ab",
+  storageBucket: "generator-5f0ab.firebasestorage.app",
+  messagingSenderId: "1001983949799",
+  appId: "1:1001983949799:web:98c3ebc4fc393919f5db42"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let names = [];
+let lastRandom = null;
+
 const nameInput = document.getElementById("nameInput");
 const nameList = document.getElementById("nameList");
 const randomName = document.getElementById("randomName");
-const adminContent = document.getElementById("adminContent");
 const miniAdminBtn = document.getElementById("miniAdminBtn");
+const adminContent = document.getElementById("adminContent");
 
-// Admin panelni ochish
-function openAdminPanel(){
+const namesRef = ref(db, "names");
+
+onValue(namesRef, snapshot=>{
+    names = [];
+    nameList.innerHTML = "";
+    let i = 1;
+    snapshot.forEach(child=>{
+        const key = child.key;
+        const val = child.val();
+        names.push(val);
+        const li = document.createElement("li");
+        li.innerHTML = `${i}. ${val} <button class='btn-danger' onclick="deleteName('${key}')">❌</button>`;
+        nameList.appendChild(li);
+        i++;
+    });
+});
+
+window.addName = function(){
+    const val = nameInput.value.trim();
+    if(!val) return alert("Ism kiriting!");
+    if(names.includes(val)) return alert("Bu ism bor!");
+    push(namesRef, val);
+    nameInput.value = "";
+}
+
+window.deleteName = function(key){
+    remove(ref(db, "names/" + key));
+}
+
+window.getRandom = function(){
+    if(names.length === 0){
+        randomName.textContent = "Ismlar yo‘q!";
+        return;
+    }
+    let finalName;
+    if(names.length === 1){
+        finalName = names[0];
+    } else {
+        do {
+            finalName = names[Math.floor(Math.random()*names.length)];
+        } while(finalName === lastRandom);
+    }
+    lastRandom = finalName;
+    animateRandom(finalName);
+}
+
+function animateRandom(finalName){
+    let count = 0;
+    const cycles = 15;
+    const interval = setInterval(()=>{
+        const temp = names[Math.floor(Math.random()*names.length)];
+        randomName.textContent = temp;
+        randomName.style.transform = `scale(${1 + Math.random()*0.3})`;
+        randomName.style.color = "#" + Math.floor(Math.random()*16777215).toString(16);
+        count++;
+        if(count >= cycles){
+            clearInterval(interval);
+            randomName.textContent = finalName;
+            randomName.style.transform = "scale(1)";
+            randomName.style.color = "#7c3aed";
+        }
+    }, 100);
+}
+
+window.openAdmin = function(){
     adminContent.style.display = "block";
     miniAdminBtn.style.display = "none";
 }
 
-// Add name (takrorlanmas qo‘shish)
-function addName(){
-    const val = nameInput.value.trim();
-    if(!val) return alert("Ism kiriting!");
-    if(names.includes(val)){
-        alert("Bu ism allaqachon mavjud!");
-        return;
-    }
-    names.push(val);
-    save();
-    render();
-    nameInput.value = "";
-}
-
-// Delete name
-function deleteName(index){
-    names.splice(index,1);
-    save();
-    render();
-}
-
-// Random name (oxirgi ism ketma-ket chiqmasligi)
-function getRandom(){
-    if(names.length===0){
-        randomName.textContent="Ismlar yo‘q!";
-        return;
-    }
-
-    if(names.length===1){
-        lastRandom = names[0];
-        showNameWithAnim(lastRandom);
-        return;
-    }
-
-    let selected;
-    do {
-        selected = names[Math.floor(Math.random()*names.length)];
-    } while(selected === lastRandom);
-
-    lastRandom = selected;
-    showNameWithAnim(selected);
-}
-
-// Animatsiya bilan ko‘rsatish
-function showNameWithAnim(name){
-    randomName.textContent = "";
-    let i = 0;
-    const fakeCycles = 10; 
-    const interval = setInterval(()=>{
-        const tempName = names[Math.floor(Math.random()*names.length)];
-        randomName.textContent = tempName;
-        randomName.style.transform = "scale(1.2)";
-        randomName.style.color = "#7c3aed";
-        i++;
-        if(i >= fakeCycles){
-            clearInterval(interval);
-            randomName.textContent = name;
-            randomName.style.transform = "scale(1.3)";
-            setTimeout(()=>{ randomName.style.transform="scale(1)"; },200);
-        }
-    },80);
-}
-
-// Render list
-function render(){
-    nameList.innerHTML = "";
-    names.forEach((n,i)=>{
-        const li=document.createElement("li");
-        li.innerHTML=`${i+1}. ${n} <button class="btn-danger" onclick="deleteName(${i})">❌</button>`;
-        nameList.appendChild(li);
-    });
-}
-
-// Save to localStorage
-function save(){
-    localStorage.setItem("names",JSON.stringify(names));
-}
-
-// Finish admin (panelni kichraytirish)
-function finishAdmin(){
+window.finishAdmin = function(){
     adminContent.style.display = "none";
     miniAdminBtn.style.display = "block";
 }
-
-// Initial render
-render();
 </script>
 
 </body>
