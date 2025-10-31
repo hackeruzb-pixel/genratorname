@@ -252,7 +252,7 @@ window.deleteName = function(key){ remove(ref(db, "names/" + key)); }
 
 /* ---------- Random Name ---------- */
 window.getRandom = function(){
-  if(names.length===0){ randomName.textContent="Ismlar yo‘q!"; return; }
+  if(names.length===0){ randomName.textContent="yuklanmoqda... qayta random tugmasin bosing!"; return; }
   let finalName;
   if(names.length===1){ finalName=names[0]; }
   else{
