@@ -8,178 +8,171 @@
 
 <style>
 :root{
-  --accent1:#6D5DFB;
-  --accent2:#FF69B4;
-  --text:#222;
+  --bg1:#100C27;
+  --bg2:#1B1640;
+  --accent1:#FF69B4;
+  --accent2:#6D5DFB;
+  --text:#fff;
   --radius:18px;
-  --shadow:0 0 30px rgba(109,93,251,0.25);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
 
 body{
-  background:linear-gradient(135deg,#ffffff,#f2f2ff);
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  color:var(--text);
   padding:24px;
   overflow:hidden;
-  position:relative;
 }
 
-/* floating background balls */
-body::before, body::after{
+/* soft glow background */
+body::before{
   content:"";
   position:absolute;
-  border-radius:50%;
-  filter:blur(120px);
-  opacity:.6;
-  animation: floaty 12s ease-in-out infinite alternate;
-}
-body::before{
-  width:480px;height:480px;
+  width:420px;
+  height:420px;
   background:radial-gradient(circle,var(--accent1) 0%,transparent 70%);
-  top:-100px;left:-100px;
+  top:-100px;
+  right:-120px;
+  opacity:0.3;
+  filter:blur(160px);
+  animation: glowMove 10s ease-in-out infinite alternate;
 }
-body::after{
-  width:420px;height:420px;
-  background:radial-gradient(circle,var(--accent2) 0%,transparent 70%);
-  bottom:-120px;right:-100px;
-}
-@keyframes floaty{
-  0%{transform:translate(0,0) scale(1);}
-  100%{transform:translate(60px,-40px) scale(1.1);}
+@keyframes glowMove{
+  0%{transform:translate(0,0);}
+  100%{transform:translate(-50px,40px);}
 }
 
 /* back arrow */
 .back-btn{
   position:absolute;
-  top:26px; left:26px;
-  width:56px; height:56px;
+  top:26px;
+  left:26px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:50%;
+  width:56px;
+  height:56px;
   display:flex;
   justify-content:center;
   align-items:center;
-  background:rgba(255,255,255,0.7);
-  border:1px solid rgba(0,0,0,0.05);
-  border-radius:50%;
   font-size:26px;
-  color:var(--accent1);
+  color:white;
   cursor:pointer;
-  box-shadow:0 8px 25px rgba(0,0,0,0.1);
-  backdrop-filter:blur(10px);
   transition:all .35s ease;
+  box-shadow:0 0 16px rgba(255,105,180,0.4);
+  backdrop-filter:blur(8px);
 }
 .back-btn:hover{
   background:linear-gradient(135deg,var(--accent1),var(--accent2));
-  color:white;
+  box-shadow:0 0 25px rgba(255,105,180,0.8);
   transform:scale(1.12) rotate(-8deg);
-  box-shadow:0 0 25px rgba(255,105,180,0.4);
 }
-.back-btn:active{transform:scale(.9);}
+.back-btn:active{
+  transform:scale(0.92);
+}
 
 /* container */
 .container{
-  background:rgba(255,255,255,0.6);
-  border:1px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.05);
+  border:1.2px solid rgba(255,255,255,0.08);
   border-radius:var(--radius);
-  backdrop-filter:blur(20px);
-  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+  box-shadow:0 0 25px rgba(0,0,0,0.35);
   width:100%;
   max-width:860px;
   padding:32px;
   text-align:center;
   position:relative;
-  animation: fadeIn 1.2s ease both;
-}
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(40px) scale(.95);}
-  to{opacity:1;transform:translateY(0) scale(1);}
+  z-index:10;
 }
 
 h1{
-  font-size:32px;
+  font-size:28px;
   font-weight:800;
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  -webkit-background-clip:text;
   background-clip:text;
+  -webkit-background-clip:text;
   color:transparent;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 p{
-  color:#444;
+  color:rgba(255,255,255,0.6);
   font-size:15px;
-  margin-bottom:22px;
+  margin-bottom:20px;
 }
 
 /* display */
 .display{
-  background:rgba(255,255,255,0.8);
+  background:rgba(255,255,255,0.07);
   border-radius:var(--radius);
-  border:1px solid rgba(0,0,0,0.05);
+  border:1px solid rgba(255,255,255,0.1);
   height:160px;
   display:flex;
   justify-content:center;
   align-items:center;
   position:relative;
   overflow:hidden;
-  box-shadow:inset 0 0 25px rgba(109,93,251,0.2);
+  box-shadow:inset 0 0 20px rgba(255,105,180,0.3);
 }
 
 #nameMain{
   font-size:34px;
   font-weight:800;
-  color:var(--accent1);
+  color:#fff;
   letter-spacing:.6px;
-  text-shadow:0 0 12px rgba(109,93,251,0.2);
+  text-shadow:0 0 12px var(--accent2);
   transition:.3s;
 }
 
 /* controls */
 .controls{
-  margin-top:28px;
+  margin-top:24px;
   display:flex;
-  gap:16px;
+  gap:14px;
 }
 
 button{
   flex:1;
-  padding:16px;
+  padding:15px;
   font-size:16px;
   font-weight:700;
   border-radius:var(--radius);
   cursor:pointer;
+  transition:all .25s ease;
   border:none;
+  color:white;
   position:relative;
   overflow:hidden;
-  transition:all .25s ease;
-  color:#fff;
 }
 
 /* random btn */
 #randomBtn{
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  box-shadow:0 0 25px rgba(109,93,251,0.5);
+  box-shadow:0 0 20px rgba(255,105,180,0.6);
 }
 #randomBtn:hover{
   transform:translateY(-3px);
-  box-shadow:0 0 40px rgba(255,105,180,0.7);
+  box-shadow:0 0 30px rgba(255,105,180,0.8);
 }
 #randomBtn:active{transform:scale(.95);}
 
 /* reset btn */
 #resetBtn{
-  background:rgba(109,93,251,0.1);
-  color:var(--accent1);
-  border:1px solid rgba(109,93,251,0.3);
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
 }
 #resetBtn:hover{
-  background:rgba(109,93,251,0.2);
+  background:rgba(255,255,255,0.2);
   transform:translateY(-2px);
 }
 #resetBtn:active{transform:scale(.95);}
 
-/* sparkles */
+/* particle sparkles */
 .particles div{
   position:absolute;
   font-size:16px;
@@ -193,29 +186,30 @@ button{
 }
 
 /* pop animation */
-.animateX{ animation: popIn .8s cubic-bezier(.19,1,.22,1); }
+.animateX{
+  animation: popIn .8s cubic-bezier(.19,1,.22,1);
+}
 @keyframes popIn{
-  0%{opacity:0;transform:scale(.3) rotate(-6deg);}
+  0%{opacity:0;transform:scale(.3) rotate(-8deg);}
   70%{opacity:1;transform:scale(1.15) rotate(2deg);}
   100%{transform:scale(1);}
 }
 
-/* spinning effect */
+#status{
+  margin-top:16px;
+  color:rgba(255,255,255,0.7);
+  font-weight:600;
+}
+
+/* spinning effect during random */
 .spin{
   animation: spinText .15s linear infinite;
-  color:var(--accent2);
+  color:var(--accent1);
 }
 @keyframes spinText{
   0%{transform:scale(1);}
   50%{transform:scale(1.08);}
   100%{transform:scale(1);}
-}
-
-/* status */
-#status{
-  margin-top:16px;
-  color:#555;
-  font-weight:600;
 }
 
 @media(max-width:520px){
@@ -232,7 +226,7 @@ button{
 
 <div class="container">
   <h1>Premium Random Picker 1</h1>
-  <p>🎲 RANDOM bosilganda — ruletka effekti bilan nomlar tanlanadi</p>
+  <p>RANDOM bosilganda — ruletka kabi aylanish animatsiyasi ✨</p>
 
   <div class="display">
     <div id="nameMain">—</div>
@@ -240,7 +234,7 @@ button{
   </div>
 
   <div class="controls">
-    <button id="randomBtn">🎯 RANDOM</button>
+    <button id="randomBtn">🎲 RANDOM</button>
     <button id="resetBtn">🔁 RESET</button>
   </div>
 
@@ -257,7 +251,7 @@ const NAMES = [
   "Genzhebaeva Zarina","Ibragimova Moxinur","Jumagaliyev Islombek",
   "Murtazaeva Sevinch","Saburbayev Ag'abek","Kuralbaev Ajiniyaz",
   "Usenov Sultanbek"
-];
+]; 
 
 let TOTAL = NAMES.length;
 let shuffled = [];
@@ -284,11 +278,11 @@ function particleFX(){
   particles.innerHTML = "";
   for (let i = 0; i < 12; i++){
     let p = document.createElement("div");
-    p.textContent = "✨";
+    p.textContent = "💫";
     p.style.left = (20 + Math.random()*60) + "%";
     p.style.top = (40 + Math.random()*20) + "%";
     p.style.fontSize = (12 + Math.random()*22) + "px";
-    p.style.color = Math.random()>.5 ? "#6D5DFB" : "#FF69B4";
+    p.style.color = Math.random()>.5 ? "#FF69B4" : "#6D5DFB";
     particles.appendChild(p);
     setTimeout(()=>p.remove(),800);
   }
@@ -310,7 +304,7 @@ function spinEffect(callback){
 
 function pick(){
   if(index >= TOTAL){
-    alert("🎉 Barcha ismlar tanlandi! RESET bosing.");
+    alert("Barcha ismlar tanlandi! RESET bosing.");
     return;
   }
 
