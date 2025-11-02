@@ -3,252 +3,154 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>✨ Neon Random Picker ✨</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-
+<title>English Random Picker 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg1: #0E0E20;
-  --bg2: #1A1A35;
-  --accent1: #6D5DFB;
-  --accent2: #00E6FF;
-  --text: #FFFFFF;
-  --radius: 20px;
+:root{
+  --accent1:#6D5DFB;
+  --accent2:#FF69B4;
+  --radius:18px;
+  --shadow:0 0 30px rgba(109,93,251,0.25);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
+body{
+  background:linear-gradient(135deg,#ffffff,#f4f4ff);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:24px;
+  overflow:hidden;
+  position:relative;
+}
+body::before,body::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:.6;
+  animation: floaty 10s ease-in-out infinite alternate;
+}
+body::before{
+  width:420px;height:420px;
+  background:radial-gradient(circle,var(--accent1) 0%,transparent 70%);
+  top:-100px;left:-100px;
+}
+body::after{
+  width:400px;height:400px;
+  background:radial-gradient(circle,var(--accent2) 0%,transparent 70%);
+  bottom:-120px;right:-100px;
+}
+@keyframes floaty{
+  0%{transform:translate(0,0) scale(1);}
+  100%{transform:translate(60px,-40px) scale(1.1);}
 }
 
-/* umumiy sozlamalar */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Inter", sans-serif;
+.back-btn{
+  position:absolute;top:24px;left:24px;
+  width:52px;height:52px;
+  display:flex;justify-content:center;align-items:center;
+  border-radius:50%;
+  background:white;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  font-size:26px;color:var(--accent1);
+  cursor:pointer;transition:.3s;
+}
+.back-btn:hover{
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  color:white;transform:scale(1.12);
+}
+.back-btn:active{transform:scale(.9);}
+
+.container{
+  background:rgba(255,255,255,0.7);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:30px;
+  max-width:860px;
+  width:100%;
+  text-align:center;
+  animation:fadeIn 1s ease both;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(40px);}
+  to{opacity:1;transform:translateY(0);}
 }
 
-body {
-  background: radial-gradient(circle at 20% 20%, var(--bg1), var(--bg2));
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--text);
-  overflow: hidden;
-  position: relative;
+h1{
+  font-size:30px;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  -webkit-background-clip:text;
+  background-clip:text;color:transparent;
+  margin-bottom:12px;
 }
+p{color:#555;font-size:15px;margin-bottom:18px;}
 
-/* harakatlanuvchi fon */
-@keyframes floatingLights {
-  0% { background-position: 0 0; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0 0; }
+.display{
+  background:rgba(255,255,255,0.9);
+  border-radius:var(--radius);
+  height:150px;
+  display:flex;justify-content:center;align-items:center;
+  overflow:hidden;
+  box-shadow:inset 0 0 25px rgba(109,93,251,0.2);
 }
-
-body::before {
-  content: "";
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 30%, rgba(0,230,255,0.3), transparent 60%) ,
-              radial-gradient(circle at 70% 70%, rgba(109,93,251,0.25), transparent 60%);
-  filter: blur(120px);
-  animation: floatingLights 12s ease-in-out infinite;
-  z-index: 0;
+#nameMain{
+  font-size:32px;font-weight:800;color:var(--accent1);
+  transition:.3s;text-shadow:0 0 12px rgba(109,93,251,0.2);
 }
-
-/* orqaga strelka */
-.back-btn {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 50%;
-  width: 58px;
-  height: 58px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 25px rgba(0,230,255,0.3);
-  backdrop-filter: blur(8px);
-  transition: all 0.35s ease;
-  z-index: 10;
+.controls{margin-top:28px;display:flex;gap:14px;}
+button{
+  flex:1;padding:14px;font-size:16px;font-weight:700;
+  border:none;border-radius:var(--radius);
+  cursor:pointer;transition:.3s;
 }
-.back-btn:hover {
-  background: linear-gradient(135deg, var(--accent1), var(--accent2));
-  box-shadow: 0 0 35px rgba(0,230,255,0.8);
-  transform: scale(1.15) rotate(-10deg);
+#randomBtn{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:white;box-shadow:0 0 20px rgba(109,93,251,0.4);
 }
-
-/* asosiy quti */
-.container {
-  background: rgba(255,255,255,0.06);
-  border: 1.5px solid rgba(255,255,255,0.12);
-  border-radius: var(--radius);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 0 40px rgba(0,0,0,0.4), inset 0 0 30px rgba(0,230,255,0.2);
-  padding: 40px;
-  text-align: center;
-  width: 90%;
-  max-width: 860px;
-  z-index: 5;
-  animation: fadeIn 1s ease;
+#resetBtn{
+  background:rgba(109,93,251,0.1);color:var(--accent1);
+  border:1px solid rgba(109,93,251,0.3);
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+#randomBtn:hover{transform:translateY(-3px);}
+#resetBtn:hover{background:rgba(109,93,251,0.2);}
+.animateX{animation:popIn .8s ease;}
+@keyframes popIn{
+  0%{opacity:0;transform:scale(.4) rotate(-5deg);}
+  70%{opacity:1;transform:scale(1.1) rotate(2deg);}
+  100%{transform:scale(1);}
 }
-
-h1 {
-  font-size: 32px;
-  font-weight: 900;
-  background: linear-gradient(90deg, var(--accent1), var(--accent2));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 12px;
-  letter-spacing: 1px;
+.spin{animation:spinText .1s linear infinite;color:var(--accent2);}
+@keyframes spinText{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+.particles div{
+  position:absolute;font-size:16px;opacity:0;
+  animation:particle .8s ease forwards;
 }
-
-p {
-  color: rgba(255,255,255,0.6);
-  font-size: 15px;
-  margin-bottom: 24px;
+@keyframes particle{
+  0%{opacity:0;transform:translateY(0) scale(.3);}
+  50%{opacity:1;}
+  100%{opacity:0;transform:translateY(-40px) scale(1.3);}
 }
-
-/* displey oynasi */
-.display {
-  background: rgba(255,255,255,0.07);
-  border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.1);
-  height: 160px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 0 30px rgba(0,230,255,0.3);
-}
-
-#nameMain {
-  font-size: 36px;
-  font-weight: 800;
-  text-shadow: 0 0 15px var(--accent2);
-  transition: 0.3s;
-}
-
-/* tugmalar */
-.controls {
-  margin-top: 26px;
-  display: flex;
-  gap: 14px;
-}
-
-button {
-  flex: 1;
-  padding: 15px;
-  font-size: 17px;
-  font-weight: 700;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all .25s ease;
-  border: none;
-  color: white;
-}
-
-/* RANDOM */
-#randomBtn {
-  background: linear-gradient(90deg, var(--accent1), var(--accent2));
-  box-shadow: 0 0 25px rgba(0,230,255,0.5);
-}
-#randomBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 35px rgba(0,230,255,0.8);
-}
-#randomBtn:active { transform: scale(.95); }
-
-/* RESET */
-#resetBtn {
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.25);
-}
-#resetBtn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.05);
-}
-#resetBtn:active { transform: scale(.95); }
-
-#status {
-  margin-top: 18px;
-  color: rgba(255,255,255,0.7);
-  font-weight: 600;
-}
-
-/* aylanish animatsiyasi */
-.spin {
-  animation: spinText 0.15s linear infinite;
-  color: var(--accent2);
-}
-@keyframes spinText {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-
-/* ismlar chiqish animatsiyasi */
-.animateX {
-  animation: popIn 0.8s cubic-bezier(.19,1,.22,1);
-}
-@keyframes popIn {
-  0% {opacity:0;transform:scale(0.3) rotate(-8deg);}
-  70% {opacity:1;transform:scale(1.2) rotate(3deg);}
-  100% {transform:scale(1);}
-}
-
-/* zarralar effekti */
-.particles div {
-  position: absolute;
-  font-size: 16px;
-  opacity: 0;
-  animation: particle 0.8s ease forwards;
-}
-@keyframes particle {
-  0% { transform: translateY(0) scale(.3); opacity:0; }
-  50% { opacity:1; }
-  100% { transform: translateY(-40px) scale(1.3); opacity:0; }
-}
-
+#status{margin-top:14px;color:#555;font-weight:600;}
 @media(max-width:520px){
-  h1{font-size:24px;}
-  #nameMain{font-size:24px;}
-  .display{height:120px;}
-  .back-btn{width:48px;height:48px;font-size:20px;}
+  h1{font-size:22px;}#nameMain{font-size:24px;}
+  .display{height:110px;}
 }
 </style>
 </head>
-
 <body>
-<div class="back-btn" onclick="window.location.href='./index.html'">⬅</div>
-
+<div class="back-btn" onclick="window.location.href='index.html'">⬅</div>
 <div class="container">
-  <h1>Neon Random Picker</h1>
-  <p>🎲 RANDOM bosilganda — tanlov ruletka kabi aylanadi ✨</p>
-
-  <div class="display">
-    <div id="nameMain">—</div>
-    <div class="particles" id="particles"></div>
-  </div>
-
+  <h1>English Random Picker 2</h1>
+  <p>🎲 Random bosilganda ruletka effekti bilan ism tanlanadi</p>
+  <div class="display"><div id="nameMain">—</div><div id="particles"></div></div>
   <div class="controls">
-    <button id="randomBtn">🎰 RANDOM</button>
+    <button id="randomBtn">🎯 RANDOM</button>
     <button id="resetBtn">🔁 RESET</button>
   </div>
-
-  <div id="status">0 / 26 tanlandi</div>
+  <div id="status">0 / 22 tanlandi</div>
 </div>
-
 <script>
 const NAMES = [
   "Joldasova Jasmina","Doshbaeva Feruza","Qalbaeva Malika","Eltaev Alisher",
@@ -259,81 +161,47 @@ const NAMES = [
   "Berdibekov Aybek","Baltimuratova Bonu","Irtleuova Janar","Turebaeva Madina",
   "Perdebaeva Guldana","Abdikalikova Munira"
 ];
-
-let TOTAL = NAMES.length;
-let shuffled = [];
-let index = 0;
-
-const nameMain = document.getElementById("nameMain");
-const statusEl = document.getElementById("status");
-const particles = document.getElementById("particles");
-const randomBtn = document.getElementById("randomBtn");
-const resetBtn = document.getElementById("resetBtn");
-
-function shuffle(arr) {
-  return arr.map(x=>({v:x,r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.v);
-}
-
-function newSet() {
-  shuffled = shuffle(NAMES);
-  index = 0;
-  statusEl.textContent = `${index} / ${TOTAL} tanlandi`;
-}
+let TOTAL=NAMES.length,shuffled=[],index=0;
+const nameMain=document.getElementById("nameMain"),
+statusEl=document.getElementById("status"),
+particles=document.getElementById("particles"),
+randomBtn=document.getElementById("randomBtn"),
+resetBtn=document.getElementById("resetBtn");
+function shuffle(a){return a.map(x=>({v:x,r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.v);}
+function newSet(){shuffled=shuffle(NAMES);index=0;statusEl.textContent=`${index} / ${TOTAL} tanlandi`;}
 newSet();
-
-function particleFX() {
-  particles.innerHTML = "";
-  for (let i = 0; i < 12; i++) {
-    let p = document.createElement("div");
-    p.textContent = "✨";
-    p.style.left = (20 + Math.random()*60) + "%";
-    p.style.top = (40 + Math.random()*20) + "%";
-    p.style.fontSize = (12 + Math.random()*22) + "px";
-    p.style.color = Math.random()>.5 ? "#6D5DFB" : "#00E6FF";
-    particles.appendChild(p);
-    setTimeout(()=>p.remove(),800);
-  }
-}
-
-function spinEffect(callback){
-  nameMain.classList.add("spin");
-  let spinInterval = setInterval(()=>{
-    let randomName = NAMES[Math.floor(Math.random()*NAMES.length)];
-    nameMain.textContent = randomName;
-  },100);
-
-  setTimeout(()=>{
-    clearInterval(spinInterval);
-    nameMain.classList.remove("spin");
-    callback();
-  },1800);
-}
-
+function particleFX(){
+particles.innerHTML="";
+for(let i=0;i<10;i++){
+let p=document.createElement("div");
+p.textContent="✨";
+p.style.left=(20+Math.random()*60)+"%";
+p.style.top=(40+Math.random()*20)+"%";
+p.style.fontSize=(12+Math.random()*20)+"px";
+p.style.color=Math.random()>.5?"#6D5DFB":"#FF69B4";
+particles.appendChild(p);
+setTimeout(()=>p.remove(),700);
+}}
+function spinEffect(cb){
+let c=0;
+const inter=setInterval(()=>{
+nameMain.textContent=NAMES[Math.floor(Math.random()*NAMES.length)];
+c++;
+if(c>15){clearInterval(inter);cb();}
+},90);}
 function pick(){
-  if(index >= TOTAL){
-    alert("🎉 Barcha ismlar tanlandi! RESET bosing.");
-    return;
-  }
-  randomBtn.disabled = true;
-  spinEffect(()=>{
-    const name = shuffled[index++];
-    nameMain.classList.remove("animateX");
-    void nameMain.offsetWidth;
-    nameMain.textContent = name;
-    nameMain.classList.add("animateX");
-    particleFX();
-    statusEl.textContent = `${index} / ${TOTAL} tanlandi`;
-    randomBtn.disabled = false;
-  });
-}
-
-resetBtn.onclick = ()=>{
-  newSet();
-  nameMain.textContent = "—";
-  particles.innerHTML="";
-}
-
-randomBtn.onclick = pick;
+if(index>=TOTAL){alert("🎉 Barcha ismlar tanlandi! RESET bosing.");return;}
+randomBtn.disabled=true;nameMain.classList.add("spin");
+spinEffect(()=>{
+nameMain.classList.remove("spin");
+const name=shuffled[index++];nameMain.textContent=name;
+nameMain.classList.add("animateX");particleFX();
+statusEl.textContent=`${index} / ${TOTAL} tanlandi`;
+setTimeout(()=>nameMain.classList.remove("animateX"),800);
+randomBtn.disabled=false;
+});}
+resetBtn.onclick=()=>{newSet();nameMain.textContent="—";particles.innerHTML="";}
+randomBtn.onclick=pick;
 </script>
 </body>
 </html>

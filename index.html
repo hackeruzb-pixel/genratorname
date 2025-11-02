@@ -1,255 +1,101 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>English — Ustozim uchun</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Random App</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --g1:#6C63FF;
-  --g2:#FF61D2;
-  --g3:#4ECDC4;
-  --radius:18px;
-  --blur:18px;
+  --accent1:#6D5DFB;
+  --accent2:#FF69B4;
+  --bg:#ffffff;
+  --radius:20px;
 }
-
-/* reset */
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
-
-/* page background: clean white with very gentle vertical gradient */
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
 body{
-  min-height:100vh;
+  background:linear-gradient(135deg,#ffffff,#f4f4ff);
+  height:100vh;
   display:flex;
-  align-items:center;
   justify-content:center;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfbff 100%);
-  color:#0b1020;
-  position:relative;
+  align-items:center;
   overflow:hidden;
 }
-
-/* soft pastel glows (subtle, non-intrusive) */
-.glow {
-  position:absolute;
-  border-radius:50%;
-  filter: blur(100px);
-  opacity:0.55;
-  mix-blend-mode: screen;
-  pointer-events:none;
-}
-.glow.g1{ width:360px; height:360px; top:-120px; left:-80px; background:linear-gradient(135deg, rgba(108,99,255,0.9), rgba(108,99,255,0.4)); animation: float1 10s ease-in-out infinite alternate;}
-.glow.g2{ width:300px; height:300px; bottom:-120px; right:-100px; background:linear-gradient(135deg, rgba(255,97,210,0.9), rgba(255,97,210,0.35)); animation: float2 12s ease-in-out infinite alternate;}
-.glow.g3{ width:240px; height:240px; top:40%; left:60%; background:linear-gradient(135deg, rgba(78,205,196,0.9), rgba(78,205,196,0.28)); animation: float3 11s ease-in-out infinite alternate;}
-
-@keyframes float1{ from{transform:translateY(0) scale(1)} to{transform:translateY(-30px) scale(1.05)} }
-@keyframes float2{ from{transform:translateY(0) scale(1)} to{transform:translateY(-45px) scale(1.07)} }
-@keyframes float3{ from{transform:translateY(0) scale(1)} to{transform:translateY(-28px) scale(1.03)} }
-
-/* container (glass card) */
 .container{
-  width:100%;
-  max-width:900px;
-  background: rgba(255,255,255,0.85);
-  border-radius:calc(var(--radius) + 4px);
-  box-shadow: 0 12px 40px rgba(12,18,40,0.08);
-  padding:40px;
   text-align:center;
-  position:relative;
-  z-index:2;
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(15,20,40,0.04);
-  transform-origin:center;
-  animation: cardIn 900ms cubic-bezier(.2,.9,.2,1) forwards;
-  opacity:0;
-  transform: translateY(28px) scale(.98);
+  padding:32px;
+  border-radius:var(--radius);
+  backdrop-filter:blur(25px);
+  box-shadow:0 0 40px rgba(109,93,251,0.25);
+  background:rgba(255,255,255,0.7);
+  animation:fadeIn 1s ease both;
 }
-@keyframes cardIn{ to{opacity:1; transform: translateY(0) scale(1);} }
-
-/* title */
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.9);}
+  to{opacity:1;transform:scale(1);}
+}
 h1{
   font-size:34px;
-  font-weight:800;
-  margin-bottom:8px;
-  color:#07102a;
-  letter-spacing:0.2px;
-  background: linear-gradient(90deg, var(--g1), var(--g2));
+  font-weight:900;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
+  margin-bottom:30px;
 }
-.lead{
-  color:#394158;
-  margin-bottom:28px;
-  font-weight:600;
-}
-
-/* buttons area */
 .buttons{
   display:flex;
+  flex-direction:column;
   gap:18px;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:wrap;
 }
-
-/* base button (glass + subtle 3D) */
-.btn{
-  min-width:220px;
-  padding:14px 22px;
-  border-radius:14px;
-  border: 1px solid rgba(7,16,42,0.06);
-  cursor:pointer;
+button{
+  font-size:18px;
+  padding:16px;
+  border:none;
+  border-radius:var(--radius);
   font-weight:700;
-  font-size:16px;
-  color:#fff;
-  position:relative;
-  overflow:hidden;
-  transition: transform .36s cubic-bezier(.2,.9,.2,1), box-shadow .36s;
-  box-shadow: 0 8px 30px rgba(12,18,40,0.06);
-  transform-style:preserve-3d;
-  -webkit-tap-highlight-color: transparent;
-  backdrop-filter: blur(var(--blur));
+  color:white;
+  cursor:pointer;
+  transition:all .4s ease;
+  box-shadow:0 0 25px rgba(109,93,251,0.4);
 }
-
-/* left button: violet-pink */
-.btn-1{
-  background: linear-gradient(90deg, var(--g1), var(--g2));
-  box-shadow: 0 10px 30px rgba(108,99,255,0.18), 0 6px 18px rgba(255,97,210,0.08);
+button:nth-child(1){
+  background:linear-gradient(90deg,var(--accent1),#9d8bff);
 }
-.btn-1:hover{ transform: translateY(-8px) rotateX(2deg) scale(1.03); box-shadow: 0 20px 60px rgba(108,99,255,0.18); }
-
-/* right button: aqua-pink */
-.btn-2{
-  background: linear-gradient(90deg, var(--g3), var(--g2));
-  box-shadow: 0 10px 30px rgba(78,205,196,0.12), 0 6px 18px rgba(255,97,210,0.06);
+button:nth-child(2){
+  background:linear-gradient(90deg,#ff9ed8,var(--accent2));
 }
-.btn-2:hover{ transform: translateY(-8px) rotateX(2deg) scale(1.03); box-shadow: 0 20px 60px rgba(78,205,196,0.12); }
-
-/* subtle shine sweep for buttons */
-.btn::before{
-  content:"";
-  position:absolute;
-  top:-50%;
-  left:-60%;
-  width:40%;
-  height:220%;
-  background: linear-gradient(120deg, rgba(255,255,255,0.55), rgba(255,255,255,0.08), transparent);
-  transform: skewX(-20deg);
-  transition: left .85s cubic-bezier(.2,.9,.2,1);
-  pointer-events:none;
-  opacity:0;
+button:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 40px rgba(255,105,180,0.5);
 }
-.btn:hover::before{ left:140%; opacity:1; }
-
-/* page transition burst: soft white burst with tinted ring */
-.burst{
-  position: fixed;
-  left:50%; top:50%;
-  width:0; height:0; border-radius:50%;
-  transform: translate(-50%,-50%) scale(0);
-  z-index:999;
-  pointer-events:none;
+button:active{
+  transform:scale(.95);
 }
-.burst .core{
-  position:absolute; left:50%; top:50%;
-  transform:translate(-50%,-50%);
-  width:100%; height:100%;
-  border-radius:50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,255,255,0.5) 35%, transparent 60%);
-  filter: blur(2px);
+@keyframes pageOut{
+  from{opacity:1;transform:scale(1);}
+  to{opacity:0;transform:scale(.8);}
 }
-.burst .ring{
-  position:absolute; left:50%; top:50%;
-  transform:translate(-50%,-50%);
-  width:100%; height:100%;
-  border-radius:50%;
-  box-shadow: 0 0 60px rgba(108,99,255,0.35), 0 0 120px rgba(255,97,210,0.18);
-  opacity:0.9;
-  mix-blend-mode: screen;
-}
-
-/* burst animation (scale up then fade) */
-@keyframes burstAnim{
-  0%{ transform: translate(-50%,-50%) scale(0); opacity:1; }
-  60%{ transform: translate(-50%,-50%) scale(28); opacity:1; }
-  100%{ transform: translate(-50%,-50%) scale(40); opacity:0; }
-}
-
-/* entrance light sweep (gentle) */
-.sweep{
-  position: fixed; left:-30%; top:-10%; width:60%; height:120%;
-  background: linear-gradient(90deg, rgba(255,255,255,0.35), rgba(255,255,255,0.06), transparent);
-  transform: rotate(18deg);
-  z-index:4;
-  opacity:0.9;
-  animation: sweepIn 1.4s ease forwards;
-  pointer-events:none;
-}
-@keyframes sweepIn{ to{ left:120%; opacity:0; } }
-
-/* small helper text */
-.note{ margin-top:18px; color:#5b6472; font-weight:600; font-size:14px; }
-
-/* responsive */
-@media(max-width:720px){
-  .buttons{ flex-direction:column; gap:14px; padding:0 18px; }
-  .btn{ min-width:100%; }
-  h1{ font-size:28px; }
-  .container{ padding:28px; }
+.fadeout{animation:pageOut .6s forwards;}
+@media(max-width:600px){
+  h1{font-size:26px;}
+  button{font-size:16px;}
 }
 </style>
 </head>
 <body>
-
-<!-- subtle sweep on load -->
-<div class="sweep" aria-hidden="true"></div>
-
-<!-- pastel glows (decorative only) -->
-<div class="glow g1" aria-hidden="true"></div>
-<div class="glow g2" aria-hidden="true"></div>
-<div class="glow g3" aria-hidden="true"></div>
-
-<!-- main card -->
-<div class="container" role="main" aria-labelledby="title">
-  <h1 id="title">English — Ustozim uchun</h1>
-
-  <div class="buttons" role="navigation" aria-label="English tests">
-    <button class="btn btn-1" onclick="navigateTo('./english1.html')">✨ English Group 1</button>
-    <button class="btn btn-2" onclick="navigateTo('./english2.html')">⚡ English Group 2</button>
+  <div class="container" id="mainBox">
+    <h1>🎓 English Random Picker</h1>
+    <div class="buttons">
+      <button onclick="goPage('english1.html')">Lesson 1 Random</button>
+      <button onclick="goPage('english2.html')">Lesson 2 Random</button>
+    </div>
   </div>
-
-</div>
-
 <script>
-/* navigateTo: creates a soft burst effect, then navigates */
-function navigateTo(page){
-  // prevent double clicks
-  if (document.body.classList.contains('navigating')) return;
-  document.body.classList.add('navigating');
-
-  // create burst element
-  const burst = document.createElement('div');
-  burst.className = 'burst';
-  burst.style.left = '50%';
-  burst.style.top = '50%';
-  burst.innerHTML = '<div class="core"></div><div class="ring"></div>';
-  document.body.appendChild(burst);
-
-  // trigger scale via transform + animation
-  burst.style.animation = 'burstAnim 900ms cubic-bezier(.2,.8,.2,1) forwards';
-
-  // optional gentle card tilt while bursting
-  const container = document.querySelector('.container');
-  container.style.transition = 'transform 900ms cubic-bezier(.2,.8,.2,1), opacity 900ms ease';
-  container.style.transform = 'translateY(-20px) rotateX(6deg) scale(.98)';
-  container.style.opacity = '0.35';
-
-  // navigate after animation
-  setTimeout(()=> {
-    window.location.href = page;
-  }, 900);
+function goPage(page){
+  const box=document.getElementById('mainBox');
+  box.classList.add('fadeout');
+  setTimeout(()=>{window.location.href=page;},550);
 }
 </script>
 </body>
