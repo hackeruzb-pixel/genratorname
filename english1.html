@@ -8,167 +8,178 @@
 
 <style>
 :root{
-  --bg1:#100C27;
-  --bg2:#1B1640;
-  --accent1:#FF69B4;
-  --accent2:#6D5DFB;
-  --text:#fff;
+  --accent1:#6D5DFB;
+  --accent2:#FF69B4;
+  --text:#222;
   --radius:18px;
+  --shadow:0 0 30px rgba(109,93,251,0.25);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
 
 body{
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  background:linear-gradient(135deg,#ffffff,#f2f2ff);
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  color:var(--text);
   padding:24px;
   overflow:hidden;
+  position:relative;
 }
 
-/* soft glow background */
-body::before{
+/* floating background balls */
+body::before, body::after{
   content:"";
   position:absolute;
-  width:420px;
-  height:420px;
-  background:radial-gradient(circle,var(--accent1) 0%,transparent 70%);
-  top:-100px;
-  right:-120px;
-  opacity:0.3;
-  filter:blur(160px);
-  animation: glowMove 10s ease-in-out infinite alternate;
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:.6;
+  animation: floaty 12s ease-in-out infinite alternate;
 }
-@keyframes glowMove{
-  0%{transform:translate(0,0);}
-  100%{transform:translate(-50px,40px);}
+body::before{
+  width:480px;height:480px;
+  background:radial-gradient(circle,var(--accent1) 0%,transparent 70%);
+  top:-100px;left:-100px;
+}
+body::after{
+  width:420px;height:420px;
+  background:radial-gradient(circle,var(--accent2) 0%,transparent 70%);
+  bottom:-120px;right:-100px;
+}
+@keyframes floaty{
+  0%{transform:translate(0,0) scale(1);}
+  100%{transform:translate(60px,-40px) scale(1.1);}
 }
 
 /* back arrow */
 .back-btn{
   position:absolute;
-  top:22px;
-  left:22px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:50%;
-  width:48px;
-  height:48px;
+  top:26px; left:26px;
+  width:56px; height:56px;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:22px;
-  color:white;
+  background:rgba(255,255,255,0.7);
+  border:1px solid rgba(0,0,0,0.05);
+  border-radius:50%;
+  font-size:26px;
+  color:var(--accent1);
   cursor:pointer;
-  transition:all .3s ease;
-  box-shadow:0 0 12px rgba(255,105,180,0.3);
+  box-shadow:0 8px 25px rgba(0,0,0,0.1);
+  backdrop-filter:blur(10px);
+  transition:all .35s ease;
 }
 .back-btn:hover{
-  background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  box-shadow:0 0 18px rgba(255,105,180,0.6);
-  transform:translateY(-2px);
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  color:white;
+  transform:scale(1.12) rotate(-8deg);
+  box-shadow:0 0 25px rgba(255,105,180,0.4);
 }
+.back-btn:active{transform:scale(.9);}
 
 /* container */
 .container{
-  background:rgba(255,255,255,0.05);
-  border:1.2px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.6);
+  border:1px solid rgba(255,255,255,0.3);
   border-radius:var(--radius);
-  backdrop-filter:blur(12px);
-  box-shadow:0 0 25px rgba(0,0,0,0.35);
+  backdrop-filter:blur(20px);
+  box-shadow:var(--shadow);
   width:100%;
   max-width:860px;
   padding:32px;
   text-align:center;
   position:relative;
-  z-index:10;
+  animation: fadeIn 1.2s ease both;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(40px) scale(.95);}
+  to{opacity:1;transform:translateY(0) scale(1);}
 }
 
 h1{
-  font-size:28px;
+  font-size:32px;
   font-weight:800;
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  background-clip:text;
   -webkit-background-clip:text;
+  background-clip:text;
   color:transparent;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 p{
-  color:rgba(255,255,255,0.6);
+  color:#444;
   font-size:15px;
-  margin-bottom:20px;
+  margin-bottom:22px;
 }
 
 /* display */
 .display{
-  background:rgba(255,255,255,0.07);
+  background:rgba(255,255,255,0.8);
   border-radius:var(--radius);
-  border:1px solid rgba(255,255,255,0.1);
+  border:1px solid rgba(0,0,0,0.05);
   height:160px;
   display:flex;
   justify-content:center;
   align-items:center;
   position:relative;
   overflow:hidden;
-  box-shadow:inset 0 0 20px rgba(255,105,180,0.3);
+  box-shadow:inset 0 0 25px rgba(109,93,251,0.2);
 }
 
 #nameMain{
   font-size:34px;
   font-weight:800;
-  color:#fff;
+  color:var(--accent1);
   letter-spacing:.6px;
-  text-shadow:0 0 12px var(--accent2);
+  text-shadow:0 0 12px rgba(109,93,251,0.2);
   transition:.3s;
 }
 
 /* controls */
 .controls{
-  margin-top:24px;
+  margin-top:28px;
   display:flex;
-  gap:14px;
+  gap:16px;
 }
 
 button{
   flex:1;
-  padding:15px;
+  padding:16px;
   font-size:16px;
   font-weight:700;
   border-radius:var(--radius);
   cursor:pointer;
-  transition:all .25s ease;
   border:none;
-  color:white;
   position:relative;
   overflow:hidden;
+  transition:all .25s ease;
+  color:#fff;
 }
 
 /* random btn */
 #randomBtn{
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  box-shadow:0 0 20px rgba(255,105,180,0.6);
+  box-shadow:0 0 25px rgba(109,93,251,0.5);
 }
 #randomBtn:hover{
   transform:translateY(-3px);
-  box-shadow:0 0 30px rgba(255,105,180,0.8);
+  box-shadow:0 0 40px rgba(255,105,180,0.7);
 }
 #randomBtn:active{transform:scale(.95);}
 
 /* reset btn */
 #resetBtn{
-  background:rgba(255,255,255,0.1);
-  border:1px solid rgba(255,255,255,0.2);
+  background:rgba(109,93,251,0.1);
+  color:var(--accent1);
+  border:1px solid rgba(109,93,251,0.3);
 }
 #resetBtn:hover{
-  background:rgba(255,255,255,0.2);
+  background:rgba(109,93,251,0.2);
   transform:translateY(-2px);
 }
 #resetBtn:active{transform:scale(.95);}
 
-/* particle sparkles */
+/* sparkles */
 .particles div{
   position:absolute;
   font-size:16px;
@@ -182,25 +193,17 @@ button{
 }
 
 /* pop animation */
-.animateX{
-  animation: popIn .8s cubic-bezier(.19,1,.22,1);
-}
+.animateX{ animation: popIn .8s cubic-bezier(.19,1,.22,1); }
 @keyframes popIn{
-  0%{opacity:0;transform:scale(.3) rotate(-8deg);}
+  0%{opacity:0;transform:scale(.3) rotate(-6deg);}
   70%{opacity:1;transform:scale(1.15) rotate(2deg);}
   100%{transform:scale(1);}
 }
 
-#status{
-  margin-top:16px;
-  color:rgba(255,255,255,0.7);
-  font-weight:600;
-}
-
-/* spinning effect during random */
+/* spinning effect */
 .spin{
   animation: spinText .15s linear infinite;
-  color:var(--accent1);
+  color:var(--accent2);
 }
 @keyframes spinText{
   0%{transform:scale(1);}
@@ -208,11 +211,18 @@ button{
   100%{transform:scale(1);}
 }
 
+/* status */
+#status{
+  margin-top:16px;
+  color:#555;
+  font-weight:600;
+}
+
 @media(max-width:520px){
   h1{font-size:22px;}
   #nameMain{font-size:24px;}
   .display{height:120px;}
-  .back-btn{width:42px;height:42px;font-size:20px;}
+  .back-btn{width:48px;height:48px;font-size:22px;}
 }
 </style>
 </head>
@@ -222,7 +232,7 @@ button{
 
 <div class="container">
   <h1>Premium Random Picker 1</h1>
-  <p>RANDOM bosilganda — ruletka kabi aylanish animatsiyasi ✨</p>
+  <p>🎲 RANDOM bosilganda — ruletka effekti bilan nomlar tanlanadi</p>
 
   <div class="display">
     <div id="nameMain">—</div>
@@ -230,7 +240,7 @@ button{
   </div>
 
   <div class="controls">
-    <button id="randomBtn">🎲 RANDOM</button>
+    <button id="randomBtn">🎯 RANDOM</button>
     <button id="resetBtn">🔁 RESET</button>
   </div>
 
@@ -239,14 +249,14 @@ button{
 
 <script>
 const NAMES = [
-  "Atajanova Nigora","Boltaboev Bekzod","Qurbonov Asqar",
-  "Tursunova Madina","Ergasheva Dildora","Nazarov Amir",
-  "Jumaniyozov Kamron","Saparova Dilafruz","To‘xtasinov Umid",
-  "Raxmonova Aziza","Yuldashev Diyor","Gulomova Oysara",
-  "Saidov Rustam","Mamatova Sevara","Bozorov Aziz",
-  "Rasulova Mohira","Ismatov Xusan","Karimova Nafisa",
-  "Abdullaev Doston","Kamalova Dilnoza","Hamroyev Jasur",
-  "Nurmamatov Alisher"
+  "Maxsetova Sevara","Ongarbaeva Gulbahor","Orazbaeva Gulsevar",
+  "Umirzakova Asemay","Ko‘chkarbaeva Durdona","Chekmaryov Dmitriy",
+  "Madiyarova Asal","Kuandikov Xursand","D.Jumaliyev Chingiz",
+  "Koptleuova Shaxnoza","Duzelov Jamshid","Alyanova Jasmina",
+  "Rzamuratova Dinora","Buribaeva Gulxayo","Shamuratova Aygul",
+  "Genzhebaeva Zarina","Ibragimova Moxinur","Jumagaliyev Islombek",
+  "Murtazaeva Sevinch","Saburbayev Ag'abek","Kuralbaev Ajiniyaz",
+  "Usenov Sultanbek"
 ];
 
 let TOTAL = NAMES.length;
@@ -274,11 +284,11 @@ function particleFX(){
   particles.innerHTML = "";
   for (let i = 0; i < 12; i++){
     let p = document.createElement("div");
-    p.textContent = "💫";
+    p.textContent = "✨";
     p.style.left = (20 + Math.random()*60) + "%";
     p.style.top = (40 + Math.random()*20) + "%";
     p.style.fontSize = (12 + Math.random()*22) + "px";
-    p.style.color = Math.random()>.5 ? "#FF69B4" : "#6D5DFB";
+    p.style.color = Math.random()>.5 ? "#6D5DFB" : "#FF69B4";
     particles.appendChild(p);
     setTimeout(()=>p.remove(),800);
   }
@@ -300,7 +310,7 @@ function spinEffect(callback){
 
 function pick(){
   if(index >= TOTAL){
-    alert("Barcha ismlar tanlandi! RESET bosing.");
+    alert("🎉 Barcha ismlar tanlandi! RESET bosing.");
     return;
   }
 

@@ -3,213 +3,228 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Neon Random Picker</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
+<title>✨ Neon Random Picker ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg1:#0F0F1A;
-  --bg2:#1B1B2F;
-  --text:#fff;
-  --accent1:#6D5DFB;
-  --accent2:#00E6FF;
-  --radius:18px;
+:root {
+  --bg1: #0E0E20;
+  --bg2: #1A1A35;
+  --accent1: #6D5DFB;
+  --accent2: #00E6FF;
+  --text: #FFFFFF;
+  --radius: 20px;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
-
-body{
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:var(--text);
-  padding:24px;
-  overflow:hidden;
+/* umumiy sozlamalar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
-/* glowing background */
-body::before{
-  content:"";
-  position:absolute;
-  width:400px;
-  height:400px;
-  background:radial-gradient(circle,var(--accent2) 0%,transparent 70%);
-  top:-120px;
-  left:-120px;
-  opacity:0.3;
-  filter:blur(160px);
-  animation: moveGlow 10s linear infinite alternate;
-}
-@keyframes moveGlow{
-  0%{transform:translate(0,0);}
-  100%{transform:translate(60px,40px);}
+body {
+  background: radial-gradient(circle at 20% 20%, var(--bg1), var(--bg2));
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+  overflow: hidden;
+  position: relative;
 }
 
-/* back arrow */
-.back-btn{
-  position:absolute;
-  top:22px;
-  left:22px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:50%;
-  width:48px;
-  height:48px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:22px;
-  color:white;
-  cursor:pointer;
-  transition:all .3s ease;
-  box-shadow:0 0 12px rgba(109,93,251,0.3);
-}
-.back-btn:hover{
-  background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  box-shadow:0 0 18px rgba(0,230,255,0.6);
-  transform:translateY(-2px);
+/* harakatlanuvchi fon */
+@keyframes floatingLights {
+  0% { background-position: 0 0; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0 0; }
 }
 
-.container{
-  background:rgba(255,255,255,0.05);
-  border:1.2px solid rgba(255,255,255,0.08);
-  border-radius:var(--radius);
-  backdrop-filter:blur(12px);
-  box-shadow:0 0 25px rgba(0,0,0,0.35);
-  width:100%;
-  max-width:860px;
-  padding:32px;
-  text-align:center;
-  position:relative;
-  z-index:10;
+body::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, rgba(0,230,255,0.3), transparent 60%) ,
+              radial-gradient(circle at 70% 70%, rgba(109,93,251,0.25), transparent 60%);
+  filter: blur(120px);
+  animation: floatingLights 12s ease-in-out infinite;
+  z-index: 0;
 }
 
-h1{
-  font-size:28px;
-  font-weight:800;
-  background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  background-clip:text;
-  -webkit-background-clip:text;
-  color:transparent;
-  margin-bottom:10px;
+/* orqaga strelka */
+.back-btn {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(0,230,255,0.3);
+  backdrop-filter: blur(8px);
+  transition: all 0.35s ease;
+  z-index: 10;
 }
-p{
-  color:rgba(255,255,255,0.6);
-  font-size:15px;
-  margin-bottom:20px;
-}
-
-.display{
-  background:rgba(255,255,255,0.07);
-  border-radius:var(--radius);
-  border:1px solid rgba(255,255,255,0.1);
-  height:160px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-  overflow:hidden;
-  box-shadow:inset 0 0 20px rgba(109,93,251,0.3);
-}
-
-#nameMain{
-  font-size:34px;
-  font-weight:800;
-  color:#fff;
-  letter-spacing:.6px;
-  text-shadow:0 0 12px var(--accent2);
-  transition:.3s;
+.back-btn:hover {
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  box-shadow: 0 0 35px rgba(0,230,255,0.8);
+  transform: scale(1.15) rotate(-10deg);
 }
 
-.controls{
-  margin-top:24px;
-  display:flex;
-  gap:14px;
+/* asosiy quti */
+.container {
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 40px rgba(0,0,0,0.4), inset 0 0 30px rgba(0,230,255,0.2);
+  padding: 40px;
+  text-align: center;
+  width: 90%;
+  max-width: 860px;
+  z-index: 5;
+  animation: fadeIn 1s ease;
 }
 
-button{
-  flex:1;
-  padding:15px;
-  font-size:16px;
-  font-weight:700;
-  border-radius:var(--radius);
-  cursor:pointer;
-  transition:all .25s ease;
-  border:none;
-  color:white;
-  position:relative;
-  overflow:hidden;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* random btn */
-#randomBtn{
-  background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  box-shadow:0 0 20px rgba(109,93,251,0.6);
-}
-#randomBtn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 0 30px rgba(0,230,255,0.8);
-}
-#randomBtn:active{transform:scale(.95);}
-
-/* reset btn */
-#resetBtn{
-  background:rgba(255,255,255,0.1);
-  border:1px solid rgba(255,255,255,0.2);
-}
-#resetBtn:hover{
-  background:rgba(255,255,255,0.2);
-  transform:translateY(-2px);
-}
-#resetBtn:active{transform:scale(.95);}
-
-/* particle sparkles */
-.particles div{
-  position:absolute;
-  font-size:16px;
-  opacity:0;
-  animation: particle .8s ease forwards;
-}
-@keyframes particle{
-  0%{ transform:translateY(0) scale(.3); opacity:0;}
-  50%{ opacity:1; }
-  100%{ transform:translateY(-40px) scale(1.3); opacity:0; }
+h1 {
+  font-size: 32px;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
 }
 
-/* pop animation */
-.animateX{
-  animation: popIn .8s cubic-bezier(.19,1,.22,1);
-}
-@keyframes popIn{
-  0%{opacity:0;transform:scale(.3) rotate(-8deg);}
-  70%{opacity:1;transform:scale(1.15) rotate(2deg);}
-  100%{transform:scale(1);}
+p {
+  color: rgba(255,255,255,0.6);
+  font-size: 15px;
+  margin-bottom: 24px;
 }
 
-#status{
-  margin-top:16px;
-  color:rgba(255,255,255,0.7);
-  font-weight:600;
+/* displey oynasi */
+.display {
+  background: rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.1);
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0,230,255,0.3);
 }
 
-/* spinning effect during random */
-.spin{
-  animation: spinText .15s linear infinite;
-  color:#00E6FF;
+#nameMain {
+  font-size: 36px;
+  font-weight: 800;
+  text-shadow: 0 0 15px var(--accent2);
+  transition: 0.3s;
 }
-@keyframes spinText{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.08);}
-  100%{transform:scale(1);}
+
+/* tugmalar */
+.controls {
+  margin-top: 26px;
+  display: flex;
+  gap: 14px;
+}
+
+button {
+  flex: 1;
+  padding: 15px;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .25s ease;
+  border: none;
+  color: white;
+}
+
+/* RANDOM */
+#randomBtn {
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  box-shadow: 0 0 25px rgba(0,230,255,0.5);
+}
+#randomBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(0,230,255,0.8);
+}
+#randomBtn:active { transform: scale(.95); }
+
+/* RESET */
+#resetBtn {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+#resetBtn:hover {
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.05);
+}
+#resetBtn:active { transform: scale(.95); }
+
+#status {
+  margin-top: 18px;
+  color: rgba(255,255,255,0.7);
+  font-weight: 600;
+}
+
+/* aylanish animatsiyasi */
+.spin {
+  animation: spinText 0.15s linear infinite;
+  color: var(--accent2);
+}
+@keyframes spinText {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* ismlar chiqish animatsiyasi */
+.animateX {
+  animation: popIn 0.8s cubic-bezier(.19,1,.22,1);
+}
+@keyframes popIn {
+  0% {opacity:0;transform:scale(0.3) rotate(-8deg);}
+  70% {opacity:1;transform:scale(1.2) rotate(3deg);}
+  100% {transform:scale(1);}
+}
+
+/* zarralar effekti */
+.particles div {
+  position: absolute;
+  font-size: 16px;
+  opacity: 0;
+  animation: particle 0.8s ease forwards;
+}
+@keyframes particle {
+  0% { transform: translateY(0) scale(.3); opacity:0; }
+  50% { opacity:1; }
+  100% { transform: translateY(-40px) scale(1.3); opacity:0; }
 }
 
 @media(max-width:520px){
-  h1{font-size:22px;}
+  h1{font-size:24px;}
   #nameMain{font-size:24px;}
   .display{height:120px;}
-  .back-btn{width:42px;height:42px;font-size:20px;}
+  .back-btn{width:48px;height:48px;font-size:20px;}
 }
 </style>
 </head>
@@ -219,7 +234,7 @@ button{
 
 <div class="container">
   <h1>Neon Random Picker</h1>
-  <p>RANDOM bosilganda — tanlov ruletka kabi aylanadi 🎲✨</p>
+  <p>🎲 RANDOM bosilganda — tanlov ruletka kabi aylanadi ✨</p>
 
   <div class="display">
     <div id="nameMain">—</div>
@@ -227,41 +242,22 @@ button{
   </div>
 
   <div class="controls">
-    <button id="randomBtn">🎲 RANDOM</button>
+    <button id="randomBtn">🎰 RANDOM</button>
     <button id="resetBtn">🔁 RESET</button>
   </div>
 
-  <div id="status">0 / 22 tanlandi</div>
+  <div id="status">0 / 26 tanlandi</div>
 </div>
 
 <script>
 const NAMES = [
-  "Joldasova Jasmina",
-  "Doshbaeva Feruza",
-  "Qalbaeva Malika",
-  "Eltaev Alisher",
-  "Quralbaeva Aray",
-  "Saparbaeva Ulbosin",
-  "Nawrizbaev Aydos",
-  "Elmuratova Gulinur",
-  "Baltabekova Asel",
-  "Uzokova Aziza",
-  "Nietbaeva Shaxrizoda",
-  "Qurbanov Dawletnazar",
-  "Esbosinova Shakhryza",
-  "Najimatdinova Aygerim",
-  "Qosibaeva Albina",
-  "Uzakbaeva Anora",
-  "Primbetova Nigora",
-  "Madiyarova Nilufar",
-  "Dosimbetov Bekzod",
-  "Muratbaev Javohir",
-  "Berdibekov Aybek",
-  "Baltimuratova Bonu",
-  "Irtleuova Janar",
-  "Turebaeva Madina",
-  "Perdebaeva Guldana",
-  "Abdikalikova Munira"
+  "Joldasova Jasmina","Doshbaeva Feruza","Qalbaeva Malika","Eltaev Alisher",
+  "Quralbaeva Aray","Saparbaeva Ulbosin","Nawrizbaev Aydos","Elmuratova Gulinur",
+  "Baltabekova Asel","Uzokova Aziza","Nietbaeva Shaxrizoda","Qurbanov Dawletnazar",
+  "Esbosinova Shakhryza","Najimatdinova Aygerim","Qosibaeva Albina","Uzakbaeva Anora",
+  "Primbetova Nigora","Madiyarova Nilufar","Dosimbetov Bekzod","Muratbaev Javohir",
+  "Berdibekov Aybek","Baltimuratova Bonu","Irtleuova Janar","Turebaeva Madina",
+  "Perdebaeva Guldana","Abdikalikova Munira"
 ];
 
 let TOTAL = NAMES.length;
@@ -274,20 +270,20 @@ const particles = document.getElementById("particles");
 const randomBtn = document.getElementById("randomBtn");
 const resetBtn = document.getElementById("resetBtn");
 
-function shuffle(arr){
+function shuffle(arr) {
   return arr.map(x=>({v:x,r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.v);
 }
 
-function newSet(){
+function newSet() {
   shuffled = shuffle(NAMES);
   index = 0;
   statusEl.textContent = `${index} / ${TOTAL} tanlandi`;
 }
 newSet();
 
-function particleFX(){
+function particleFX() {
   particles.innerHTML = "";
-  for (let i = 0; i < 12; i++){
+  for (let i = 0; i < 12; i++) {
     let p = document.createElement("div");
     p.textContent = "✨";
     p.style.left = (20 + Math.random()*60) + "%";
@@ -310,15 +306,14 @@ function spinEffect(callback){
     clearInterval(spinInterval);
     nameMain.classList.remove("spin");
     callback();
-  }, 1800);
+  },1800);
 }
 
 function pick(){
   if(index >= TOTAL){
-    alert("Barcha ismlar tanlandi! RESET bosing.");
+    alert("🎉 Barcha ismlar tanlandi! RESET bosing.");
     return;
   }
-
   randomBtn.disabled = true;
   spinEffect(()=>{
     const name = shuffled[index++];
@@ -340,6 +335,5 @@ resetBtn.onclick = ()=>{
 
 randomBtn.onclick = pick;
 </script>
-
 </body>
 </html>
